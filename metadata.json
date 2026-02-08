@@ -1,0 +1,7 @@
+{
+  "name": "PAI Critical Thinking",
+  "description": "An Islamic Education (PAI) learning application focused on Critical Thinking and Praised Morals (Akhlak Terpuji) using the ADDIE instructional design framework.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
