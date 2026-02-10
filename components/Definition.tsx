@@ -48,9 +48,32 @@ const Definition: React.FC<Props> = ({ onNext, onBack }) => {
             </div>
             <div className="h-1 w-12 bg-primary rounded-full mb-4"></div>
             <p className="text-[#4a6352] dark:text-gray-300 leading-relaxed">
-              Sikap dan perilaku yang sesuai dengan ajaran Islam, membawa
-              manfaat bagi diri sendiri dan orang lain, serta mencerminkan
-              keridhaan Allah SWT.
+              Akhlak terpuji adalah sikap dan perilaku mulia yang sesuai dengan
+              ajaran Islam, bersumber dari Al-Qur’an dan Hadis, serta tercermin
+              dalam hubungan manusia dengan Allah SWT, sesama manusia, dan
+              lingkungan. Akhlak terpuji meliputi kejujuran, amanah, tanggung
+              jawab, keadilan, kesabaran, dan kesantunan, yang lahir dari
+              keimanan dan ketakwaan kepada Allah SWT.
+              <br />
+              <br />
+              Hal ini ditegaskan dalam
+              <br />
+              <br />
+              Al-Qur’an: “Sesungguhnya engkau (Muhammad) benar-benar berbudi
+              pekerti yang agung.” (QS. Al-Qalam: 4)
+              <br />
+              <br />
+              Selain itu, Rasulullah SAW bersabda: 
+              <br />
+              <br />
+              “Sesungguhnya aku diutus
+              hanyalah untuk menyempurnakan akhlak yang mulia.” (HR. Ahmad)
+              <br />
+              <br />
+              Dengan demikian, akhlak terpuji menjadi tujuan utama pendidikan
+              Islam dan landasan penting dalam membentuk pribadi yang beriman,
+              berpikir bijak, serta bertanggung jawab dalam kehidupan
+              sehari-hari.
             </p>
           </div>
         </div>

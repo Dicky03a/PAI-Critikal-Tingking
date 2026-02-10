@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 /**
@@ -16,11 +15,14 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  */
 export const saveActivity = async (stepName: string, data: any) => {
   try {
+    // Dapatkan user yang sedang login
+    const { data: { user } } = await supabase.auth.getUser();
+    
     const { error } = await supabase.from('activities').insert([
       { 
         step_name: stepName, 
         input_data: data,
-        user_name: 'Ahmad' // Placeholder, bisa diganti dengan sistem login jika ada
+        user_name: user?.user_metadata?.full_name || user?.email || 'Ahmad'
       }
     ]);
     if (error) throw error;
@@ -48,4 +50,112 @@ export const fetchMaterial = async (stepKey: string) => {
     console.warn(`Gagal mengambil materi '${stepKey}' dari Supabase. Menggunakan data default lokal.`);
     return null;
   }
+};
+
+// ============ FUNGSI AUTENTIKASI ============
+
+/**
+ * Mendaftar user baru dengan email dan password
+ */
+export const signUp = async (email: string, password: string, fullName: string) => {
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+    if (error) throw error;
+    return { success: true, data };
+  } catch (err: any) {
+    console.error('Gagal mendaftar:', err);
+    return { success: false, error: err.message };
+  }
+};
+
+/**
+ * Login user dengan email dan password
+ */
+export const signIn = async (email: string, password: string) => {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw error;
+    return { success: true, data };
+  } catch (err: any) {
+    console.error('Gagal login:', err);
+    return { success: false, error: err.message };
+  }
+};
+
+/**
+ * Logout user
+ */
+export const signOut = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    return { success: true };
+  } catch (err: any) {
+    console.error('Gagal logout:', err);
+    return { success: false, error: err.message };
+  }
+};
+
+/**
+ * Reset password - mengirim email reset
+ */
+export const resetPassword = async (email: string) => {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) throw error;
+    return { success: true };
+  } catch (err: any) {
+    console.error('Gagal mengirim email reset:', err);
+    return { success: false, error: err.message };
+  }
+};
+
+/**
+ * Update password baru setelah reset
+ */
+export const updatePassword = async (newPassword: string) => {
+  try {
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    if (error) throw error;
+    return { success: true };
+  } catch (err: any) {
+    console.error('Gagal update password:', err);
+    return { success: false, error: err.message };
+  }
+};
+
+/**
+ * Mendapatkan user yang sedang login
+ */
+export const getCurrentUser = async () => {
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) throw error;
+    return user;
+  } catch (err) {
+    console.error('Gagal mendapatkan user:', err);
+    return null;
+  }
+};
+
+/**
+ * Listener untuk perubahan status auth
+ */
+export const onAuthStateChange = (callback: (event: string, session: any) => void) => {
+  return supabase.auth.onAuthStateChange(callback);
 };

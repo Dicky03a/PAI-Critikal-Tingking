@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Screen } from "../types";
 import { BookOpen, MessageCircle, HelpCircle } from "lucide-react";
+import { getCurrentUser } from "../supabase";
 
 interface Props {
   onStart: () => void;
@@ -8,6 +9,32 @@ interface Props {
 }
 
 const Dashboard: React.FC<Props> = ({ onStart, onMenu }) => {
+  const [userName, setUserName] = useState("Ahmad");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    const user = await getCurrentUser();
+    if (user) {
+      // Ambil nama dari user metadata, fallback ke email atau default
+      const name =
+        user.user_metadata?.full_name || user.email?.split("@")[0] || "Ahmad";
+      setUserName(name);
+      setUserEmail(user.email || "");
+    }
+  };
+
+  // Fungsi untuk mendapatkan greeting berdasarkan waktu
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Assalamu'alaikum";
+    if (hour < 18) return "Assalamu'alaikum";
+    return "Assalamu'alaikum";
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <nav className="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 justify-between border-b border-gray-100 dark:border-gray-800">
@@ -31,16 +58,21 @@ const Dashboard: React.FC<Props> = ({ onStart, onMenu }) => {
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20 border-2 border-primary shadow-sm"
               style={{
                 backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIZKnanlHIA9u3wnLXb9v9hY0F-anxRA9tq3ICdwWKsCH2-ddEhhChnO-snPIVFeWavZ-Xr6FCzvL5_7ZIImHDiacd53hOhOsljZLQq2JMCiGpS8W1RV275E8r-G6Oz06odmNqIUgbJVJIme0mdKAnIIR6gF6Ew38KuOrE0luXnEyhLxmBQCaPb_CbGOOoG5yctgR2J1WTYxmi90yrarP3CntbTB1H5mYmojKlCPg-ZypxmP4YhFQVp2bAgc79LVJUQRm0i6HyA4o")',
+                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIZKnanlHIA9u3wnLXb9v9hY0F-anxRA9tq3ICdwWKsCH2-ddEhhChnO-snPIVFeWavZ-Xr6FCzvL5_7ZIImHDiacd53hOhsljZLQq2JMCiGpS8W1RV275E8r-G6Oz06odmNqIUgbJVJIme0mdKAnIIR6gF6Ew38KuOrE0luXnEyhLxmBQCaPb_CbGOOoG5yctgR2J1WTYxmi90yrarP3CntbTB1H5mYmojKlCPg-ZypxmP4YhFQVp2bAgc79LVJUQRm0i6HyA4o")',
               }}
             ></div>
             <div className="flex flex-col">
               <p className="text-[#111813] dark:text-white text-xl font-bold leading-tight font-display">
-                Assalamu'alaikum, Ahmad
+                {getGreeting()}, {userName}
               </p>
               <p className="text-[#61896f] dark:text-primary/80 text-sm font-normal">
                 Mari berpikir kritis hari ini.
               </p>
+              {userEmail && (
+                <p className="text-gray-500 dark:text-gray-400 text-xs mt-1">
+                  {userEmail}
+                </p>
+              )}
             </div>
           </div>
         </header>

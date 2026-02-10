@@ -65,7 +65,7 @@ const Competency: React.FC<Props> = ({ onNext, onBack }) => {
             </div>
             <p className="mt-3 text-emerald-800 dark:text-emerald-100/80 leading-relaxed">
               {material?.content?.body ||
-                "Memahami dan menerapkan konsep berpikir kritis dalam perspektif Pendidikan Agama Islam (PAI) untuk membentuk akhlak terpuji."}
+                "Peserta didik mampu memahami dan menerapkan kemampuan berpikir kritis dalam perspektif Pendidikan Agama Islam dengan menganalisis informasi dan permasalahan secara logis, objektif, dan bertanggung jawab, serta mengaitkannya dengan nilai-nilai keislaman untuk membentuk sikap bijak, perilaku terpuji, dan akhlak mulia dalam kehidupan sehari-hari.."}
             </p>
           </div>
         </div>
