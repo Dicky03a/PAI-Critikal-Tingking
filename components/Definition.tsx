@@ -63,11 +63,11 @@ const Definition: React.FC<Props> = ({ onNext, onBack }) => {
               pekerti yang agung.” (QS. Al-Qalam: 4)
               <br />
               <br />
-              Selain itu, Rasulullah SAW bersabda: 
+              Selain itu, Rasulullah SAW bersabda:
               <br />
               <br />
-              “Sesungguhnya aku diutus
-              hanyalah untuk menyempurnakan akhlak yang mulia.” (HR. Ahmad)
+              “Sesungguhnya aku diutus hanyalah untuk menyempurnakan akhlak yang
+              mulia.” (HR. Ahmad)
               <br />
               <br />
               Dengan demikian, akhlak terpuji menjadi tujuan utama pendidikan
@@ -75,6 +75,21 @@ const Definition: React.FC<Props> = ({ onNext, onBack }) => {
               berpikir bijak, serta bertanggung jawab dalam kehidupan
               sehari-hari.
             </p>
+            {/* Video Pembelajaran */}
+            <div className="mt-6">
+              <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
+                <video controls className="w-full h-auto" preload="metadata">
+                  <source
+                    src="https://hjuwnofbrwqszffwxktr.supabase.co/storage/v1/object/public/Vidio/vidio.mp4"
+                    type="video/mp4"
+                  />
+                  Browser Anda tidak mendukung video.
+                </video>
+              </div>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Video penjelasan tentang akhlak terpuji
+              </p>
+            </div>
           </div>
         </div>
 
