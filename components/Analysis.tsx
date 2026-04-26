@@ -21,20 +21,12 @@ const Analysis: React.FC<Props> = ({ onNext, onBack, loading }) => {
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h2 className="flex-1 text-center font-bold text-lg pr-12">
-          Analisis Kasus
+          Study Kasus
         </h2>
       </header>
 
       <div className="flex-1 overflow-y-auto pb-24">
-        <div className="p-4 flex flex-col gap-3">
-          <div className="flex justify-between items-center text-sm font-medium">
-            <p>Tahap Analysis (ADDIE)</p>
-            <p>Langkah 1 dari 5</p>
-          </div>
-          <div className="rounded-full bg-gray-200 dark:bg-gray-700 h-2.5 overflow-hidden">
-            <div className="h-full bg-primary" style={{ width: "20%" }}></div>
-          </div>
-        </div>
+        
 
         <div className="p-4">
           <div className="bg-[#f0f9f0] dark:bg-green-950/30 border border-primary/20 rounded-xl p-4 shadow-sm">

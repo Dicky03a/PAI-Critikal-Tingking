@@ -11,11 +11,7 @@ const Success: React.FC<Props> = ({ onDashboard }) => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(17,212,98,0.15)_0%,rgba(16,34,24,0.9)_100%)] pointer-events-none"></div>
 
       <div className="flex-1 flex flex-col items-center justify-center z-10">
-        <div className="mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/20">
-            <Sparkles className="w-10 h-10 text-primary" />
-          </div>
-        </div>
+        
 
         <h1 className="text-[32px] font-bold italic leading-tight mb-8">
           'Bukan siapa yang paling cepat, tetapi siapa yang paling tahan untuk

@@ -25,31 +25,14 @@ const Evaluation: React.FC<Props> = ({ onNext, onBack, loading }) => {
         </h2>
       </header>
 
-      <div className="p-4">
-        <div className="bg-white dark:bg-zinc-800 p-4 rounded-xl border flex flex-col gap-3 shadow-sm">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2 text-primary">
-              <BadgeCheck className="w-5 h-5" />
-              <p className="font-bold">Tahap Akhir: Evaluasi</p>
-            </div>
-            <p className="font-bold">100%</p>
-          </div>
-          <div className="rounded-full bg-gray-100 h-2.5 overflow-hidden">
-            <div className="h-full bg-primary" style={{ width: "100%" }}></div>
-          </div>
-        </div>
-      </div>
-
       <div className="flex-1 overflow-y-auto px-4">
         <div className="pt-6">
-          <div className="flex items-center gap-2 text-primary mb-1">
-            <Sparkles className="w-4 h-4" />
-            <span className="text-xs font-bold uppercase">Self-Reflection</span>
-          </div>
-          <h3 className="text-2xl font-bold">Refleksi Diri Mahasiswa</h3>
+          <div className="flex items-center gap-2 text-primary mb-1"></div>
+          <h3 className="text-2xl font-bold">Refleksi Diri</h3>
           <p className="text-gray-500 mt-2">
-            MashaAllah, Anda telah menyelesaikan seluruh modul. Gunakan ruang
-            ini untuk merenung.
+            Terima kasih telah berbagi pengalaman Anda. Mari terus melanjutkan
+            proses pembelajaran dengan semangat dan
+            komitmen untuk berkembang secara berkelanjutan.
           </p>
         </div>
 
