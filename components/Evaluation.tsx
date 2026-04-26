@@ -5,11 +5,20 @@ interface Props {
   onNext: (data: any) => void;
   onBack: () => void;
   loading: boolean;
+  initialData?: {
+    most_difficult: string;
+    challenge_reason: string;
+  };
 }
 
-const Evaluation: React.FC<Props> = ({ onNext, onBack, loading }) => {
-  const [difficult, setDifficult] = useState("");
-  const [reason, setReason] = useState("");
+const Evaluation: React.FC<Props> = ({
+  onNext,
+  onBack,
+  loading,
+  initialData,
+}) => {
+  const [difficult, setDifficult] = useState(initialData?.most_difficult || "");
+  const [reason, setReason] = useState(initialData?.challenge_reason || "");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -31,8 +40,8 @@ const Evaluation: React.FC<Props> = ({ onNext, onBack, loading }) => {
           <h3 className="text-2xl font-bold">Refleksi Diri</h3>
           <p className="text-gray-500 mt-2">
             Terima kasih telah berbagi pengalaman Anda. Mari terus melanjutkan
-            proses pembelajaran dengan semangat dan
-            komitmen untuk berkembang secara berkelanjutan.
+            proses pembelajaran dengan semangat dan komitmen untuk berkembang
+            secara berkelanjutan.
           </p>
         </div>
 

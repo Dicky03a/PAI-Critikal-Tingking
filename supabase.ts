@@ -1,12 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * PENTING:
  * Ganti URL dan ANON_KEY di bawah ini dengan kredensial dari dashboard Supabase Anda.
  * Detail lengkap lihat di file SETUP.md
  */
-const SUPABASE_URL = 'https://hjuwnofbrwqszffwxktr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqdXdub2Zicndxc3pmZnd4a3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDQyMDEsImV4cCI6MjA4NjEyMDIwMX0.qed_XuBuQJN9tuIrBNdBMmTAwxRcc8gXYaREiuE54pc';
+const SUPABASE_URL = "https://hjuwnofbrwqszffwxktr.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqdXdub2Zicndxc3pmZnd4a3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDQyMDEsImV4cCI6MjA4NjEyMDIwMX0.qed_XuBuQJN9tuIrBNdBMmTAwxRcc8gXYaREiuE54pc";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -16,21 +17,58 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export const saveActivity = async (stepName: string, data: any) => {
   try {
     // Dapatkan user yang sedang login
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    const { error } = await supabase.from('activities').insert([
-      { 
-        step_name: stepName, 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { error } = await supabase.from("activities").insert([
+      {
+        step_name: stepName,
         input_data: data,
-        user_name: user?.user_metadata?.full_name || user?.email || 'Ahmad'
-      }
+        user_name: user?.user_metadata?.full_name || user?.email || "Ahmad",
+      },
     ]);
     if (error) throw error;
     console.log(`Berhasil menyimpan data untuk tahap: ${stepName}`);
     return { success: true };
   } catch (err) {
-    console.error('Gagal menyimpan ke Supabase:', err);
+    console.error("Gagal menyimpan ke Supabase:", err);
     return { success: false, error: err };
+  }
+};
+
+/**
+ * Fungsi untuk mengambil data aktivitas yang sudah tersimpan dari Supabase
+ */
+export const fetchUserActivities = async () => {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return {};
+
+    const { data, error } = await supabase
+      .from("activities")
+      .select("step_name, input_data")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    // Reorganisasi data berdasarkan step_name, ambil yang paling baru untuk setiap step
+    const activities: any = {};
+    if (data && data.length > 0) {
+      data.forEach((record: any) => {
+        if (!activities[record.step_name]) {
+          activities[record.step_name] = record.input_data;
+        }
+      });
+    }
+
+    return activities;
+  } catch (err) {
+    console.warn("Gagal mengambil aktivitas dari Supabase:", err);
+    return {};
   }
 };
 
@@ -40,14 +78,16 @@ export const saveActivity = async (stepName: string, data: any) => {
 export const fetchMaterial = async (stepKey: string) => {
   try {
     const { data, error } = await supabase
-      .from('materials')
-      .select('*')
-      .eq('step_key', stepKey)
+      .from("materials")
+      .select("*")
+      .eq("step_key", stepKey)
       .single();
     if (error) throw error;
     return data;
   } catch (err) {
-    console.warn(`Gagal mengambil materi '${stepKey}' dari Supabase. Menggunakan data default lokal.`);
+    console.warn(
+      `Gagal mengambil materi '${stepKey}' dari Supabase. Menggunakan data default lokal.`,
+    );
     return null;
   }
 };
@@ -57,7 +97,11 @@ export const fetchMaterial = async (stepKey: string) => {
 /**
  * Mendaftar user baru dengan email dan password
  */
-export const signUp = async (email: string, password: string, fullName: string) => {
+export const signUp = async (
+  email: string,
+  password: string,
+  fullName: string,
+) => {
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -71,7 +115,7 @@ export const signUp = async (email: string, password: string, fullName: string) 
     if (error) throw error;
     return { success: true, data };
   } catch (err: any) {
-    console.error('Gagal mendaftar:', err);
+    console.error("Gagal mendaftar:", err);
     return { success: false, error: err.message };
   }
 };
@@ -88,7 +132,7 @@ export const signIn = async (email: string, password: string) => {
     if (error) throw error;
     return { success: true, data };
   } catch (err: any) {
-    console.error('Gagal login:', err);
+    console.error("Gagal login:", err);
     return { success: false, error: err.message };
   }
 };
@@ -102,7 +146,7 @@ export const signOut = async () => {
     if (error) throw error;
     return { success: true };
   } catch (err: any) {
-    console.error('Gagal logout:', err);
+    console.error("Gagal logout:", err);
     return { success: false, error: err.message };
   }
 };
@@ -118,7 +162,7 @@ export const resetPassword = async (email: string) => {
     if (error) throw error;
     return { success: true };
   } catch (err: any) {
-    console.error('Gagal mengirim email reset:', err);
+    console.error("Gagal mengirim email reset:", err);
     return { success: false, error: err.message };
   }
 };
@@ -134,7 +178,7 @@ export const updatePassword = async (newPassword: string) => {
     if (error) throw error;
     return { success: true };
   } catch (err: any) {
-    console.error('Gagal update password:', err);
+    console.error("Gagal update password:", err);
     return { success: false, error: err.message };
   }
 };
@@ -144,11 +188,14 @@ export const updatePassword = async (newPassword: string) => {
  */
 export const getCurrentUser = async () => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
     if (error) throw error;
     return user;
   } catch (err) {
-    console.error('Gagal mendapatkan user:', err);
+    console.error("Gagal mendapatkan user:", err);
     return null;
   }
 };
@@ -156,6 +203,8 @@ export const getCurrentUser = async () => {
 /**
  * Listener untuk perubahan status auth
  */
-export const onAuthStateChange = (callback: (event: string, session: any) => void) => {
+export const onAuthStateChange = (
+  callback: (event: string, session: any) => void,
+) => {
   return supabase.auth.onAuthStateChange(callback);
 };

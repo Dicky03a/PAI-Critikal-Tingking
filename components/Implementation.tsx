@@ -5,10 +5,18 @@ interface Props {
   onNext: (data: { journal: string }) => void;
   onBack: () => void;
   loading: boolean;
+  initialData?: {
+    journal: string;
+  };
 }
 
-const Implementation: React.FC<Props> = ({ onNext, onBack, loading }) => {
-  const [journal, setJournal] = useState("");
+const Implementation: React.FC<Props> = ({
+  onNext,
+  onBack,
+  loading,
+  initialData,
+}) => {
+  const [journal, setJournal] = useState(initialData?.journal || "");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -20,8 +28,6 @@ const Implementation: React.FC<Props> = ({ onNext, onBack, loading }) => {
           Penerapan Nyata
         </h2>
       </header>
-
-      
 
       <div className="flex-1 overflow-y-auto px-4">
         <div className="flex flex-col items-center py-6 text-center">

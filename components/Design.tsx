@@ -5,11 +5,15 @@ interface Props {
   onNext: (data: { steps: string; argument: string }) => void;
   onBack: () => void;
   loading: boolean;
+  initialData?: {
+    steps: string;
+    argument: string;
+  };
 }
 
-const Design: React.FC<Props> = ({ onNext, onBack, loading }) => {
-  const [steps, setSteps] = useState("");
-  const [argument, setArgument] = useState("");
+const Design: React.FC<Props> = ({ onNext, onBack, loading, initialData }) => {
+  const [steps, setSteps] = useState(initialData?.steps || "");
+  const [argument, setArgument] = useState(initialData?.argument || "");
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-950">
@@ -28,8 +32,7 @@ const Design: React.FC<Props> = ({ onNext, onBack, loading }) => {
 
       <div className="px-6 py-6 space-y-6 flex-1 overflow-y-auto">
         <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-3 mb-3">
-          </div>
+          <div className="flex items-center gap-3 mb-3"></div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
             Rencanakan langkah-langkah strategis untuk menyikapi kasus.
           </p>
@@ -45,8 +48,7 @@ const Design: React.FC<Props> = ({ onNext, onBack, loading }) => {
         </div>
 
         <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-3 mb-3">
-          </div>
+          <div className="flex items-center gap-3 mb-3"></div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
             Kembangkan argumen logis bahwa solusi ini mencerminkan Akhlak
             Terpuji.

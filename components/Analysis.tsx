@@ -5,11 +5,22 @@ interface Props {
   onNext: (data: { relevant_values: string; impact: string }) => void;
   onBack: () => void;
   loading: boolean;
+  initialData?: {
+    relevant_values: string;
+    impact: string;
+  };
 }
 
-const Analysis: React.FC<Props> = ({ onNext, onBack, loading }) => {
-  const [relevantValues, setRelevantValues] = useState("");
-  const [impact, setImpact] = useState("");
+const Analysis: React.FC<Props> = ({
+  onNext,
+  onBack,
+  loading,
+  initialData,
+}) => {
+  const [relevantValues, setRelevantValues] = useState(
+    initialData?.relevant_values || "",
+  );
+  const [impact, setImpact] = useState(initialData?.impact || "");
 
   return (
     <div className="flex flex-col h-screen">
@@ -26,8 +37,6 @@ const Analysis: React.FC<Props> = ({ onNext, onBack, loading }) => {
       </header>
 
       <div className="flex-1 overflow-y-auto pb-24">
-        
-
         <div className="p-4">
           <div className="bg-[#f0f9f0] dark:bg-green-950/30 border border-primary/20 rounded-xl p-4 shadow-sm">
             <div

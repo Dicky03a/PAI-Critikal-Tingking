@@ -14,6 +14,7 @@ import SignUp from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import {
   saveActivity,
+  fetchUserActivities,
   onAuthStateChange,
   getCurrentUser,
   signOut,
@@ -38,15 +39,19 @@ const App: React.FC = () => {
     // Subscribe ke perubahan auth state
     const {
       data: { subscription },
-    } = onAuthStateChange((event, session) => {
+    } = onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticated(true);
         setUserName(
           session.user.user_metadata?.full_name || session.user.email || "",
         );
+        // Load aktivitas yang sudah tersimpan saat user login
+        const activities = await fetchUserActivities();
+        setActivityData(activities);
       } else if (event === "SIGNED_OUT") {
         setIsAuthenticated(false);
         setUserName("");
+        setActivityData({});
       }
     });
 
@@ -60,6 +65,9 @@ const App: React.FC = () => {
     if (user) {
       setIsAuthenticated(true);
       setUserName(user.user_metadata?.full_name || user.email || "");
+      // Load aktivitas yang sudah tersimpan
+      const activities = await fetchUserActivities();
+      setActivityData(activities);
     }
     setCheckingAuth(false);
   };
@@ -164,6 +172,7 @@ const App: React.FC = () => {
             onNext={(data) => handleSaveStep("analysis", data, "DESIGN")}
             onBack={() => navigateTo("DEFINITION")}
             loading={isLoading}
+            initialData={activityData.analysis}
           />
         );
       case "DESIGN":
@@ -172,6 +181,7 @@ const App: React.FC = () => {
             onNext={(data) => handleSaveStep("design", data, "IMPLEMENTATION")}
             onBack={() => navigateTo("ANALYSIS")}
             loading={isLoading}
+            initialData={activityData.design}
           />
         );
       case "IMPLEMENTATION":
@@ -182,6 +192,7 @@ const App: React.FC = () => {
             }
             onBack={() => navigateTo("DESIGN")}
             loading={isLoading}
+            initialData={activityData.implementation}
           />
         );
       case "EVALUATION":
@@ -190,6 +201,7 @@ const App: React.FC = () => {
             onNext={(data) => handleSaveStep("evaluation", data, "SUCCESS")}
             onBack={() => navigateTo("IMPLEMENTATION")}
             loading={isLoading}
+            initialData={activityData.evaluation}
           />
         );
       case "SUCCESS":
@@ -208,20 +220,9 @@ const App: React.FC = () => {
     <div className="max-w-[430px] mx-auto min-h-screen shadow-2xl bg-white dark:bg-background-dark overflow-x-hidden relative">
       {renderScreen()}
 
-      {/* Logout Button - hanya tampil di Dashboard */}
-      {currentScreen === "DASHBOARD" && (
-        <button
-          onClick={handleLogout}
-          className="fixed top-4 right-4 z-50 bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 active:scale-95 transition-all"
-          title="Logout"
-        >
-          <LogOut className="w-5 h-5" />
-        </button>
-      )}
-
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center">
+        <div className="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center">
           <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-xl flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
             <p className="font-bold text-primary">Menyimpan Aktivitas...</p>
