@@ -28,22 +28,9 @@ const Definition: React.FC<Props> = ({ onNext, onBack }) => {
       </header>
 
       <main className="flex-1 p-4">
-        <div className="w-full bg-gradient-to-br from-emerald-100 to-primary/30 dark:from-emerald-900/40 p-10 flex flex-col items-center justify-center rounded-xl border border-emerald-50">
-          <div className="bg-white/90 dark:bg-emerald-800/50 p-6 rounded-full shadow-lg text-primary">
-            <Sparkles className="w-14 h-14" />
-          </div>
-          <p className="mt-6 font-bold text-emerald-800 dark:text-emerald-100">
-            Berpikir Kritis & Berakhlak Mulia
-          </p>
-        </div>
-
-        <div className="mt-6 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
-          <div className="bg-primary/10 p-10 flex items-center justify-center text-primary">
-            <BookOpen className="w-14 h-14" />
-          </div>
+        <div className=" bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
           <div className="p-6">
             <div className="flex items-center gap-2 mb-2">
-              <BadgeCheck className="w-5 h-5 text-primary" />
               <p className="text-xl font-bold">Definisi Akhlak Terpuji</p>
             </div>
             <div className="h-1 w-12 bg-primary rounded-full mb-4"></div>

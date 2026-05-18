@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronLeft, Building2, Code } from "lucide-react";
+import { ChevronLeft, Building2, Code, Loader2 } from "lucide-react";
 
 interface Props {
   onNext: (data: { steps: string; argument: string }) => void;
@@ -14,6 +14,8 @@ interface Props {
 const Design: React.FC<Props> = ({ onNext, onBack, loading, initialData }) => {
   const [steps, setSteps] = useState(initialData?.steps || "");
   const [argument, setArgument] = useState(initialData?.argument || "");
+
+  const isFormValid = steps.trim() !== "" && argument.trim() !== "";
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-950">
@@ -32,7 +34,6 @@ const Design: React.FC<Props> = ({ onNext, onBack, loading, initialData }) => {
 
       <div className="px-6 py-6 space-y-6 flex-1 overflow-y-auto">
         <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-3 mb-3"></div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
             Rencanakan langkah-langkah strategis untuk menyikapi kasus.
           </p>
@@ -48,7 +49,6 @@ const Design: React.FC<Props> = ({ onNext, onBack, loading, initialData }) => {
         </div>
 
         <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-3 mb-3"></div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
             Kembangkan argumen logis bahwa solusi ini mencerminkan Akhlak
             Terpuji.
@@ -73,11 +73,22 @@ const Design: React.FC<Props> = ({ onNext, onBack, loading, initialData }) => {
           Kembali
         </button>
         <button
-          disabled={loading || !steps || !argument}
-          onClick={() => onNext({ steps, argument })}
-          className="flex-1 h-12 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95"
+          disabled={loading || !isFormValid}
+          onClick={() => {
+            if (isFormValid) {
+              onNext({ 
+                steps: steps.trim(), 
+                argument: argument.trim() 
+              });
+            }
+          }}
+          className="flex-1 h-12 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95 flex items-center justify-center gap-2"
         >
-          {loading ? "Memproses..." : "Lanjut"}
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            "Lanjut"
+          )}
         </button>
       </div>
     </div>

@@ -12,6 +12,7 @@ export type Screen =
 
 // User activity data yang disimpan ke Supabase
 export interface UserActivity {
+  materi_accessed?: boolean;
   analysis?: {
     relevant_values: string;
     impact: string;

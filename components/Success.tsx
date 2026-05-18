@@ -29,17 +29,6 @@ const Success: React.FC<Props> = ({ onDashboard }) => {
           Semoga menjadi sarana belajar dan refleksi menuju pribadi yang lebih
           baik.
         </p>
-
-        <div className="mt-12 w-full max-w-xs aspect-square relative flex items-center justify-center">
-          <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
-          <div
-            className="w-full h-full bg-center bg-no-repeat bg-contain opacity-40 mix-blend-screen"
-            style={{
-              backgroundImage:
-                'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUCaR_kExCuUSpLPW1Qd4tNYoaE6iK8DzsaePsQ-2QIkBjpC9FFAqJtb7Z0N42EsanCIh9OjlTdaGNO1NMrdoxZK5IKmHC0xYtP4w6K7gd45T7Jyj5ZlLWy1OLH9CU_CGlXMnL_ald4vT21cZRVAiHN78q_4H4FHoo5-mrSC1OJ1uj1SjLsCt-ZjRrB_EI1RmGky7KRpfSpyNShlaGVkH7KPl7cgTgCW1MOcs1hnt12RKDUSiQF7dvxRtjRboyq1qnIxMt-CrQ1xc")',
-            }}
-          ></div>
-        </div>
       </div>
 
       <div className="relative z-10 pb-12 pt-4">

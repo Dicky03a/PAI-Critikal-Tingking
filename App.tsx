@@ -36,6 +36,39 @@ const App: React.FC = () => {
   useEffect(() => {
     checkAuth();
 
+    // Handle back button on mobile/browser
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state) {
+        if (event.state.isAuthenticated === false) {
+          setIsAuthenticated(false);
+          if (event.state.authScreen) {
+            setAuthScreen(event.state.authScreen);
+          }
+        } else if (event.state.screen) {
+          setIsAuthenticated(true);
+          setCurrentScreen(event.state.screen);
+        }
+      } else {
+        // Fallback
+        if (!isAuthenticated) {
+          setAuthScreen("LOGIN");
+        } else {
+          setCurrentScreen("DASHBOARD");
+        }
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    // Initial state for history
+    if (!window.history.state) {
+      window.history.replaceState({ 
+        isAuthenticated: false, 
+        authScreen: "LOGIN",
+        screen: "DASHBOARD" 
+      }, "", "");
+    }
+
     // Subscribe ke perubahan auth state
     const {
       data: { subscription },
@@ -48,15 +81,21 @@ const App: React.FC = () => {
         // Load aktivitas yang sudah tersimpan saat user login
         const activities = await fetchUserActivities();
         setActivityData(activities);
+        // Update history state
+        window.history.replaceState({ isAuthenticated: true, screen: "DASHBOARD" }, "", "");
       } else if (event === "SIGNED_OUT") {
         setIsAuthenticated(false);
         setUserName("");
         setActivityData({});
+        setAuthScreen("LOGIN");
+        // Update history state
+        window.history.replaceState({ isAuthenticated: false, authScreen: "LOGIN" }, "", "");
       }
     });
 
     return () => {
       subscription.unsubscribe();
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
@@ -76,13 +115,26 @@ const App: React.FC = () => {
     const result = await signOut();
     if (result.success) {
       setIsAuthenticated(false);
+      setAuthScreen("LOGIN");
       setCurrentScreen("DASHBOARD");
     }
   };
 
   const navigateTo = (screen: Screen) => {
-    setCurrentScreen(screen);
+    // If navigating to Materi, mark it as accessed
+    if (screen === "COMPETENCY" && !activityData.materi_accessed) {
+      handleSaveStep("materi_accessed", true, screen);
+    } else {
+      setCurrentScreen(screen);
+      window.scrollTo(0, 0);
+      window.history.pushState({ isAuthenticated: true, screen }, "", "");
+    }
+  };
+
+  const navigateAuthTo = (screen: AuthScreen) => {
+    setAuthScreen(screen);
     window.scrollTo(0, 0);
+    window.history.pushState({ isAuthenticated: false, authScreen: screen }, "", "");
   };
 
   const handleSaveStep = async (
@@ -97,7 +149,9 @@ const App: React.FC = () => {
     await saveActivity(step, data);
 
     setIsLoading(false);
-    navigateTo(nextScreen);
+    setCurrentScreen(nextScreen);
+    window.scrollTo(0, 0);
+    window.history.pushState({ isAuthenticated: true, screen: nextScreen }, "", "");
   };
 
   // Loading state saat cek autentikasi
@@ -119,18 +173,18 @@ const App: React.FC = () => {
         {authScreen === "LOGIN" && (
           <Login
             onLoginSuccess={() => setIsAuthenticated(true)}
-            onNavigateToSignUp={() => setAuthScreen("SIGNUP")}
-            onNavigateToForgotPassword={() => setAuthScreen("FORGOT_PASSWORD")}
+            onNavigateToSignUp={() => navigateAuthTo("SIGNUP")}
+            onNavigateToForgotPassword={() => navigateAuthTo("FORGOT_PASSWORD")}
           />
         )}
         {authScreen === "SIGNUP" && (
           <SignUp
-            onSignUpSuccess={() => setAuthScreen("LOGIN")}
-            onNavigateToLogin={() => setAuthScreen("LOGIN")}
+            onSignUpSuccess={() => navigateAuthTo("LOGIN")}
+            onNavigateToLogin={() => navigateAuthTo("LOGIN")}
           />
         )}
         {authScreen === "FORGOT_PASSWORD" && (
-          <ForgotPassword onNavigateToLogin={() => setAuthScreen("LOGIN")} />
+          <ForgotPassword onNavigateToLogin={() => navigateAuthTo("LOGIN")} />
         )}
       </div>
     );
@@ -143,6 +197,8 @@ const App: React.FC = () => {
           <Dashboard
             onStart={() => navigateTo("GUIDE")}
             onMenu={(s) => navigateTo(s)}
+            onLogout={handleLogout}
+            activityData={activityData}
           />
         );
       case "GUIDE":
@@ -211,6 +267,8 @@ const App: React.FC = () => {
           <Dashboard
             onStart={() => navigateTo("GUIDE")}
             onMenu={(s) => navigateTo(s)}
+            onLogout={handleLogout}
+            activityData={activityData}
           />
         );
     }

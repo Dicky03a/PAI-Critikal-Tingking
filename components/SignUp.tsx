@@ -58,173 +58,165 @@ const SignUp: React.FC<Props> = ({ onSignUpSuccess, onNavigateToLogin }) => {
 
   if (success) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen px-6 bg-gradient-to-b from-primary/5 to-white dark:from-primary/10 dark:to-background-dark">
-        <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-6 animate-bounce">
-          <UserPlus className="w-10 h-10 text-primary" />
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50 dark:bg-zinc-950">
+        <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl p-10 text-center border border-gray-100 dark:border-zinc-800">
+          <div className="w-24 h-24 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <UserPlus className="w-12 h-12 text-primary" />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Pendaftaran Berhasil!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-2 leading-relaxed">
+            Silakan cek email Anda untuk verifikasi akun.
+          </p>
+          <div className="mt-8 flex items-center justify-center gap-2 text-primary font-bold">
+            <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <span>Mengalihkan ke Login...</span>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold text-center mb-4">
-          Pendaftaran Berhasil!
-        </h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-2">
-          Silakan cek email Anda untuk verifikasi akun.
-        </p>
-        <p className="text-sm text-gray-500 text-center">
-          Anda akan dialihkan ke halaman login...
-        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-primary/5 to-white dark:from-primary/10 dark:to-background-dark">
-      {/* Header */}
-      <header className="p-6 pt-8">
-        <button
-          onClick={onNavigateToLogin}
-          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary mb-6"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-semibold">Kembali</span>
-        </button>
-
-        <div className="flex justify-center mb-4">
-          <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center shadow-lg">
-            <UserPlus className="w-10 h-10 text-primary" />
-          </div>
-        </div>
-        <h1 className="text-3xl font-bold text-center">Daftar Akun Baru</h1>
-        <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
-          Bergabunglah untuk memulai pembelajaran
-        </p>
-      </header>
-
-      {/* Form */}
-      <main className="flex-1 px-6 py-8">
-        <form onSubmit={handleSignUp} className="space-y-6">
-          {/* Error Alert */}
-          {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-              <p className="text-red-700 dark:text-red-400 text-sm">{error}</p>
-            </div>
-          )}
-
-          {/* Full Name Input */}
-          <div>
-            <label className="text-sm font-bold block mb-2">Nama Lengkap</label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                className="w-full h-14 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="Ahmad Fauzi"
-              />
-            </div>
-          </div>
-
-          {/* Email Input */}
-          <div>
-            <label className="text-sm font-bold block mb-2">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full h-14 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="nama@email.com"
-              />
-            </div>
-          </div>
-
-          {/* Password Input */}
-          <div>
-            <label className="text-sm font-bold block mb-2">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full h-14 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl pl-12 pr-12 focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="Minimal 6 karakter"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Confirm Password Input */}
-          <div>
-            <label className="text-sm font-bold block mb-2">
-              Konfirmasi Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                className="w-full h-14 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl pl-12 pr-12 focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="Ulangi password"
-              />
-            </div>
-          </div>
-
-          {/* Sign Up Button */}
-          <button
-            type="submit"
-            disabled={
-              loading || !email || !password || !fullName || !confirmPassword
-            }
-            className="w-full bg-primary text-white font-bold h-14 rounded-xl shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-          >
-            {loading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Mendaftar...</span>
-              </>
-            ) : (
-              <>
-                <UserPlus className="w-5 h-5" />
-                <span>Daftar</span>
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Login Link */}
-        <div className="text-center mt-8">
-          <p className="text-gray-600 dark:text-gray-400">
-            Sudah punya akun?{" "}
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-zinc-950 px-4 py-8 justify-center">
+      <div className="w-full max-w-md mx-auto">
+        <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl shadow-primary/5 border border-gray-100 dark:border-zinc-800 overflow-hidden">
+          {/* Header Section */}
+          <div className="p-8 pb-4">
             <button
               onClick={onNavigateToLogin}
-              className="text-primary font-bold hover:underline"
+              className="group flex items-center gap-2 text-gray-400 dark:text-gray-500 hover:text-primary mb-6 transition-colors"
             >
-              Masuk Sekarang
+              <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                <ArrowLeft className="w-5 h-5" />
+              </div>
+              <span className="font-bold text-sm uppercase tracking-wider">Kembali</span>
             </button>
-          </p>
-        </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="p-6 text-center">
-        <p className="text-xs text-gray-500">PAI Critical Thinking © 2025</p>
-      </footer>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Daftar Akun</h1>
+            <p className="text-gray-500 dark:text-gray-400">
+              Bergabunglah untuk memulai pembelajaran
+            </p>
+          </div>
+
+          {/* Form Section */}
+          <div className="p-8 pt-4">
+            <form onSubmit={handleSignUp} className="space-y-4">
+              {/* Error Alert */}
+              {error && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 rounded-2xl p-4">
+                  <p className="text-red-600 dark:text-red-400 text-sm text-center font-medium">{error}</p>
+                </div>
+              )}
+
+              {/* Full Name Input */}
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 block mb-2 ml-1">Nama Lengkap</label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    className="w-full h-12 bg-gray-50 dark:bg-zinc-800/50 border border-gray-100 dark:border-zinc-700/50 rounded-2xl pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 transition-all outline-none text-sm"
+                    placeholder="Nama Lengkap"
+                  />
+                </div>
+              </div>
+
+              {/* Email Input */}
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 block mb-2 ml-1">Email</label>
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full h-12 bg-gray-50 dark:bg-zinc-800/50 border border-gray-100 dark:border-zinc-700/50 rounded-2xl pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 transition-all outline-none text-sm"
+                    placeholder="nama@email.com"
+                  />
+                </div>
+              </div>
+
+              {/* Password Input */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 block mb-2 ml-1">Password</label>
+                  <div className="relative group">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="w-full h-12 bg-gray-50 dark:bg-zinc-800/50 border border-gray-100 dark:border-zinc-700/50 rounded-2xl pl-10 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 transition-all outline-none text-sm"
+                      placeholder="Minimal 6"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 block mb-2 ml-1">Konfirmasi</label>
+                  <div className="relative group">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      className="w-full h-12 bg-gray-50 dark:bg-zinc-800/50 border border-gray-100 dark:border-zinc-700/50 rounded-2xl pl-10 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 transition-all outline-none text-sm"
+                      placeholder="Ulangi"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end px-1">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-xs text-primary font-bold flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+                >
+                  {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  {showPassword ? "Sembunyikan" : "Lihat Password"}
+                </button>
+              </div>
+
+              {/* Sign Up Button */}
+              <button
+                type="submit"
+                disabled={loading || !email || !password || !fullName || !confirmPassword}
+                className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-14 rounded-2xl shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 mt-4"
+              >
+                {loading ? (
+                  <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <UserPlus className="w-5 h-5" />
+                    <span>Daftar Sekarang</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Login Link */}
+            <div className="text-center mt-8 pt-6 border-t border-gray-50 dark:border-zinc-800">
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
+                Sudah punya akun?{" "}
+                <button
+                  onClick={onNavigateToLogin}
+                  className="text-primary font-bold hover:underline"
+                >
+                  Masuk Sekarang
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronLeft, ArrowRight, BookOpen } from "lucide-react";
+import { ChevronLeft, ArrowRight, BookOpen, Loader2 } from "lucide-react";
 
 interface Props {
   onNext: (data: { relevant_values: string; impact: string }) => void;
@@ -21,6 +21,8 @@ const Analysis: React.FC<Props> = ({
     initialData?.relevant_values || "",
   );
   const [impact, setImpact] = useState(initialData?.impact || "");
+
+  const isFormValid = relevantValues.trim() !== "" && impact.trim() !== "";
 
   return (
     <div className="flex flex-col h-screen">
@@ -47,7 +49,6 @@ const Analysis: React.FC<Props> = ({
               }}
             ></div>
             <div className="flex items-center gap-2 mb-2 text-primary">
-              <BookOpen className="w-5 h-5" />
               <p className="text-lg font-bold">Studi Kasus: Kejujuran</p>
             </div>
             <p className="italic text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -93,12 +94,25 @@ const Analysis: React.FC<Props> = ({
 
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-t">
         <button
-          disabled={loading || !relevantValues || !impact}
-          onClick={() => onNext({ relevant_values: relevantValues, impact })}
+          disabled={loading || !isFormValid}
+          onClick={() => {
+            if (isFormValid) {
+              onNext({ 
+                relevant_values: relevantValues.trim(), 
+                impact: impact.trim() 
+              });
+            }
+          }}
           className="w-full bg-primary h-14 rounded-xl text-white font-bold text-lg shadow-lg active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
         >
-          <span>Selanjutnya</span>
-          <ArrowRight className="w-5 h-5" />
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <>
+              <span>Selanjutnya</span>
+              <ArrowRight className="w-5 h-5" />
+            </>
+          )}
         </button>
       </div>
     </div>

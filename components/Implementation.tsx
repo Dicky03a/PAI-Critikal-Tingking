@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronLeft, PenLine, Camera, Send } from "lucide-react";
+import { ChevronLeft, PenLine, Camera, Send, Loader2 } from "lucide-react";
 
 interface Props {
   onNext: (data: { journal: string }) => void;
@@ -18,9 +18,11 @@ const Implementation: React.FC<Props> = ({
 }) => {
   const [journal, setJournal] = useState(initialData?.journal || "");
 
+  const isFormValid = journal.trim() !== "";
+
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="p-4 sticky top-0 bg-white dark:bg-background-dark z-10 flex items-center border-b border-gray-100">
+      <header className="p-4 sticky top-0 bg-white dark:bg-background-dark z-10 flex items-center border-b border-gray-100 dark:border-gray-800">
         <button onClick={onBack} className="size-12 flex items-center">
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -43,7 +45,7 @@ const Implementation: React.FC<Props> = ({
             <textarea
               value={journal}
               onChange={(e) => setJournal(e.target.value)}
-              className="w-full h-48 bg-white dark:bg-zinc-800 border rounded-xl p-4 resize-none"
+              className="w-full h-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-4 resize-none text-gray-900 dark:text-gray-100"
               placeholder="Tuliskan cerita Anda di sini..."
             />
           </div>
@@ -61,11 +63,19 @@ const Implementation: React.FC<Props> = ({
 
       <div className="p-4 mt-auto mb-6">
         <button
-          disabled={loading || !journal}
-          onClick={() => onNext({ journal })}
-          className="w-full bg-primary text-white font-bold h-14 rounded-xl flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+          disabled={loading || !isFormValid}
+          onClick={() => {
+            if (isFormValid) {
+              onNext({ journal: journal.trim() });
+            }
+          }}
+          className="w-full bg-primary text-white font-bold h-14 rounded-xl flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 transition-all"
         >
-          <span>Simpan</span>
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <span>Simpan</span>
+          )}
         </button>
       </div>
     </div>
