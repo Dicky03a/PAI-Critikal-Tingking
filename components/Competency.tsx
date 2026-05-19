@@ -22,7 +22,7 @@ const Competency: React.FC<Props> = ({ onNext, onBack }) => {
   const goals = [
     {
       title: "Memahami konsep Akhlak Terpuji",
-      desc: "Definisi dan urgensi dalam kehidupan",
+      desc: "Definisi dalam kehidupan sehari - hari",
     },
     {
       title: "Menganalisis contoh perilaku",
@@ -30,7 +30,7 @@ const Competency: React.FC<Props> = ({ onNext, onBack }) => {
     },
     {
       title: "Menarik kesimpulan & sikap",
-      desc: "Implementasi nyata pengambilan keputusan",
+      desc: "Pengalaman nyata pengambilan keputusan",
     },
   ];
 

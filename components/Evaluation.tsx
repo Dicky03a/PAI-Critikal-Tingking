@@ -32,7 +32,7 @@ const Evaluation: React.FC<Props> = ({
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h2 className="flex-1 text-center font-bold text-lg pr-12">
-          Evaluasi & Refleksi
+           Refleksi dari siswa
         </h2>
       </header>
 

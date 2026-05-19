@@ -25,13 +25,13 @@ const Guide: React.FC<Props> = ({ onNext, onBack }) => {
       num: 2,
       Icon: BookOpen,
       title: "Baca materi berurutan",
-      desc: "Pahami konsep secara bertahap dari dasar hingga analisis.",
+      desc: "Pahami konsep secara bertahap dari dasar hingga selesai.",
     },
     {
       num: 3,
       Icon: Brain,
       title: "Aktivitas berpikir kritis",
-      desc: "Latih kemampuan analisis dengan studi kasus.",
+      desc: "Latih kemampuanmu dengan studi kasus.",
     },
     {
       num: 4,
